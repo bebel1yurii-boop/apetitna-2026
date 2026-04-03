@@ -21,107 +21,116 @@
         const { useState, useEffect } = React;
         const { motion } = FramerMotion;
 
+        // ВШИТІ ДАНІ (Оновлюйте тут приріст АКБ та ВП)
+        const EMBEDDED_DATA = {
+            partners: [
+                {
+                    id: "p1",
+                    name: "Партнер Київ Центр",
+                    agents: [
+                        { code: "7777", name: "Юрій К.", target: 5224, current: 2450 }
+                    ]
+                }
+            ],
+            sku: [
+                { r: 1, n: "Крильця 'Солодкий чилі'", a: "10668" },
+                { r: 2, n: "Крильця в гірчично-мед. маринаді", a: "14687" },
+                { r: 3, n: "Стегна 'Айдахо'", a: "10670" }
+            ]
+        };
+
         const Dashboard = ({ agent, partnerName, onLogout }) => {
-            const akbPerc = Math.min(100, (agent.current_akb / agent.personal_akb_target) * 100);
+            const perc = Math.min(100, (agent.current / agent.target) * 100);
             const radius = 70;
-            const circumference = 2 * Math.PI * radius;
+            const circ = 2 * Math.PI * radius;
 
             return (
                 <div className="p-4 max-w-md mx-auto min-h-screen">
                     <header className="flex justify-between items-center mb-6">
-                        <div className="font-black text-orange-500 uppercase italic text-sm tracking-tighter">МХП | {partnerName}</div>
+                        <div className="font-black text-orange-500 uppercase italic text-sm">МХП | {partnerName}</div>
                         <button onClick={onLogout} className="text-[10px] text-slate-500 uppercase font-bold bg-slate-800 px-3 py-1 rounded-full">Вихід</button>
                     </header>
 
-                    <div className="bg-gradient-to-r from-orange-600 to-red-600 p-5 rounded-3xl mb-8 shadow-lg">
-                        <h2 className="font-bold uppercase text-sm italic">VIP Кампанія Червень'26</h2>
-                        <p className="text-[10px] opacity-90 font-medium uppercase mt-1">Охоплення ≈13.8 млн споживачів </p>
+                    <div className="bg-gradient-to-r from-orange-600 to-red-600 p-4 rounded-3xl mb-6 shadow-lg">
+                        <h2 className="font-bold uppercase text-xs italic">VIP Кампанія Червень'26</h2>
+                        <p className="text-[9px] opacity-90 uppercase mt-1">Охоплення ≈13.8 млн споживачів [cite: 2]</p>
                     </div>
 
-                    <div className="relative flex items-center justify-center mb-8 bg-slate-800/30 rounded-[3rem] py-6 shadow-inner">
-                        <svg className="w-64 h-64 -rotate-90" viewBox="0 0 200 200">
-                            <circle cx="100" cy="100" r={radius} fill="none" stroke="#1e293b" strokeWidth="12" />
+                    <div className="relative flex items-center justify-center mb-6 bg-slate-800/30 rounded-[2.5rem] py-6 shadow-inner">
+                        <svg className="w-56 h-56 -rotate-90" viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r={radius} fill="none" stroke="#1e293b" strokeWidth="10" />
                             <motion.circle 
-                                cx="100" cy="100" r={radius} fill="none" stroke="#f97316" strokeWidth="12" strokeLinecap="round" className="neon-glow"
-                                strokeDasharray={circumference}
-                                initial={{ strokeDashoffset: circumference }}
-                                animate={{ strokeDashoffset: circumference - (akbPerc / 100) * circumference }}
-                                transition={{ duration: 2, ease: "easeOut" }}
+                                cx="100" cy="100" r={radius} fill="none" stroke="#f97316" strokeWidth="10" strokeLinecap="round" className="neon-glow"
+                                strokeDasharray={circ}
+                                initial={{ strokeDashoffset: circ }}
+                                animate={{ strokeDashoffset: circ - (perc / 100) * circ }}
+                                transition={{ duration: 2 }}
                             />
                         </svg>
                         <div className="absolute text-center">
-                            <div className="text-5xl font-black text-white tracking-tighter italic">{agent.current_akb}</div>
-                            <div className="text-[10px] text-slate-500 uppercase font-bold mt-1 tracking-widest italic">АКБ (Ціль: 5 224) [cite: 76]</div>
+                            <div className="text-5xl font-black text-white italic">{agent.current}</div>
+                            <div className="text-[9px] text-slate-500 uppercase font-bold mt-1 tracking-widest italic">АКБ (Ціль: {agent.target}) [cite: 51]</div>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className={`p-5 rounded-[2rem] border transition-all ${akbPerc >= 50 ? 'bg-orange-500/10 border-orange-500/30' : 'bg-slate-800/40 border-slate-700 opacity-20'}`}>
-                            <div className="text-4xl mb-2">👜</div>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-orange-400">Термосумка [cite: 85]</span>
-                        </div>
-                        <div className={`p-5 rounded-[2rem] border transition-all ${akbPerc >= 100 ? 'bg-orange-500/10 border-orange-500/30' : 'bg-slate-800/40 border-slate-700 opacity-20'}`}>
-                            <div className="text-4xl mb-2">🔊</div>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-orange-400">Колонка [cite: 86]</span>
-                        </div>
+                    <div className="space-y-2 mb-6">
+                        <h3 className="text-[10px] font-black uppercase text-slate-500 ml-2 tracking-widest">🔥 Пріоритети SKU [cite: 95]</h3>
+                        {EMBEDDED_DATA.sku.map(s => (
+                            <div key={s.r} className="flex justify-between bg-slate-800/80 p-3 rounded-2xl border border-slate-700/50">
+                                <span className="text-xs font-bold text-slate-200"><span className="text-orange-500 mr-2">{s.r}</span> {s.n}</span>
+                                <span className="text-[9px] text-slate-500 italic">арт. {s.a}</span>
+                            </div>
+                        ))}
                     </div>
-                </div>
-            );
-        };
 
-        const Login = ({ partners, onLogin }) => {
-            const [pId, setPid] = useState('');
-            const [code, setCode] = useState('');
-            return (
-                <div className="min-h-screen flex items-center justify-center p-6 bg-slate-900">
-                    <div className="w-full max-w-sm bg-slate-800 p-8 rounded-[2.5rem] border border-slate-700 shadow-2xl">
-                        <h1 className="text-orange-500 font-black text-3xl mb-8 text-center uppercase tracking-tighter italic">Апетитна 2026</h1>
-                        <select onChange={e => setPid(e.target.value)} className="w-full bg-slate-700 p-4 rounded-2xl mb-4 text-white border border-slate-600 outline-none focus:border-orange-500">
-                            <option value="">Оберіть партнера...</option>
-                            {partners.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
-                        </select>
-                        <input type="password" placeholder="Код ТА / СВ [cite: 73]" onChange={e => setCode(e.target.value)} className="w-full bg-slate-700 p-4 rounded-2xl mb-6 outline-none text-white border border-slate-600 focus:border-orange-500"/>
-                        <button onClick={() => onLogin(pId, code)} className="w-full bg-orange-600 p-4 rounded-2xl font-black uppercase tracking-widest shadow-lg shadow-orange-600/30 active:scale-95 transition-all">Увійти</button>
+                    <div className="grid grid-cols-2 gap-3">
+                        <div className={`p-4 rounded-3xl border ${perc >= 50 ? 'bg-orange-500/10 border-orange-500/30' : 'opacity-20'}`}>
+                            <div className="text-3xl mb-1 text-center">👜</div>
+                            <p className="text-[9px] font-black uppercase text-center">Термосумка [cite: 85]</p>
+                        </div>
+                        <div className={`p-4 rounded-3xl border ${perc >= 100 ? 'bg-orange-500/10 border-orange-500/30' : 'opacity-20'}`}>
+                            <div className="text-3xl mb-1 text-center">🔊</div>
+                            <p className="text-[9px] font-black uppercase text-center">Колонка [cite: 86]</p>
+                        </div>
                     </div>
                 </div>
             );
         };
 
         const App = () => {
-            const [data, setData] = useState(null);
             const [session, setSession] = useState(null);
+            const [pId, setPid] = useState('');
+            const [code, setCode] = useState('');
 
             useEffect(() => {
-                const loadData = async () => {
-                    try {
-                        const res = await fetch('./data.json');
-                        const d = await res.json();
-                        setData(d);
-                        const s = localStorage.getItem('mhp_session');
-                        if (s) setSession(JSON.parse(s));
-                    } catch (e) {
-                        console.error("Помилка завантаження JSON:", e);
-                    }
-                };
-                loadData();
+                const s = localStorage.getItem('mhp_session');
+                if (s) setSession(JSON.parse(s));
             }, []);
 
-            const handleLogin = (pId, code) => {
-                const p = data.motivation_program.partners.find(x => x.id === pId);
+            const login = () => {
+                const p = EMBEDDED_DATA.partners.find(x => x.id === pId);
                 const a = p?.agents.find(x => x.code === code);
                 if (a) {
                     const s = { partnerName: p.name, agent: a };
                     localStorage.setItem('mhp_session', JSON.stringify(s));
                     setSession(s);
-                } else alert("Доступ заборонено. Перевірте код або партнера.");
+                } else alert("Помилка коду!");
             };
 
-            if (!data) return <div className="h-screen flex items-center justify-center font-black text-orange-500 uppercase tracking-widest text-xs animate-pulse italic">МХП | Завантаження...</div>;
+            if (session) return <Dashboard agent={session.agent} partnerName={session.partnerName} onLogout={() => { localStorage.removeItem('mhp_session'); setSession(null); }} />;
 
-            return session ? (
-                <Dashboard agent={session.agent} partnerName={session.partnerName} onLogout={() => { localStorage.removeItem('mhp_session'); setSession(null); }} />
-            ) : (
-                <Login partners={data.motivation_program.partners} onLogin={handleLogin} />
+            return (
+                <div className="min-h-screen flex items-center justify-center p-6">
+                    <div className="w-full max-w-sm bg-slate-800 p-8 rounded-[2.5rem] border border-slate-700 shadow-2xl">
+                        <h1 className="text-orange-500 font-black text-2xl mb-8 text-center uppercase italic">Апетитна 2026</h1>
+                        <select onChange={e => setPid(e.target.value)} className="w-full bg-slate-700 p-4 rounded-2xl mb-4 text-white outline-none border border-slate-600 focus:border-orange-500">
+                            <option value="">Оберіть партнера...</option>
+                            {EMBEDDED_DATA.partners.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                        </select>
+                        <input type="password" placeholder="Код ТА / СВ" onChange={e => setCode(e.target.value)} className="w-full bg-slate-700 p-4 rounded-2xl mb-6 outline-none text-white border border-slate-600 focus:border-orange-500"/>
+                        <button onClick={login} className="w-full bg-orange-600 p-4 rounded-2xl font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all">Увійти</button>
+                    </div>
+                </div>
             );
         };
 
