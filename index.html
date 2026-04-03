@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Апетитна 2026</title>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
     <style>
-        body { background-color: #0f172a; color: white; font-family: ui-sans-serif, system-ui; margin: 0; }
-        .neon-glow { filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.4)); }
+        body { background-color: #0f172a; color: white; font-family: system-ui; margin: 0; }
+        .radial-progress { transform: rotate(-90deg); transition: stroke-dashoffset 1s ease-in-out; }
     </style>
 </head>
 <body>
@@ -19,18 +18,11 @@
 
     <script type="text/babel">
         const { useState, useEffect } = React;
-        const { motion } = FramerMotion;
 
-        // ВШИТІ ДАНІ (Оновлюйте тут приріст АКБ та ВП)
-        const EMBEDDED_DATA = {
+        // ВШИТІ ДАНІ МП (згідно з вашим планом)
+        const DATA = {
             partners: [
-                {
-                    id: "p1",
-                    name: "Партнер Київ Центр",
-                    agents: [
-                        { code: "7777", name: "Юрій К.", target: 5224, current: 2450 }
-                    ]
-                }
+                { id: "p1", name: "Партнер Київ Центр", agents: [{ code: "7777", name: "Юрій К.", target: 5224, current: 2450 }] }
             ],
             sku: [
                 { r: 1, n: "Крильця 'Солодкий чилі'", a: "10668" },
@@ -43,55 +35,51 @@
             const perc = Math.min(100, (agent.current / agent.target) * 100);
             const radius = 70;
             const circ = 2 * Math.PI * radius;
+            const offset = circ - (perc / 100) * circ;
 
             return (
                 <div className="p-4 max-w-md mx-auto min-h-screen">
                     <header className="flex justify-between items-center mb-6">
-                        <div className="font-black text-orange-500 uppercase italic text-sm">МХП | {partnerName}</div>
-                        <button onClick={onLogout} className="text-[10px] text-slate-500 uppercase font-bold bg-slate-800 px-3 py-1 rounded-full">Вихід</button>
+                        <div className="font-bold text-orange-500 uppercase text-xs italic">МХП | {partnerName}</div>
+                        <button onClick={onLogout} className="text-[10px] text-slate-500 uppercase bg-slate-800 px-3 py-1 rounded-full">Вийти</button>
                     </header>
 
-                    <div className="bg-gradient-to-r from-orange-600 to-red-600 p-4 rounded-3xl mb-6 shadow-lg">
-                        <h2 className="font-bold uppercase text-xs italic">VIP Кампанія Червень'26</h2>
-                        <p className="text-[9px] opacity-90 uppercase mt-1">Охоплення ≈13.8 млн споживачів [cite: 2]</p>
+                    <div className="bg-gradient-to-r from-orange-600 to-red-600 p-4 rounded-3xl mb-6 shadow-lg text-center">
+                        <h2 className="font-bold uppercase text-xs">VIP Кампанія Червень'26</h2>
+                        <p className="text-[9px] uppercase mt-1">Охоплення ≈13.8 млн споживачів</p>
                     </div>
 
-                    <div className="relative flex items-center justify-center mb-6 bg-slate-800/30 rounded-[2.5rem] py-6 shadow-inner">
-                        <svg className="w-56 h-56 -rotate-90" viewBox="0 0 200 200">
-                            <circle cx="100" cy="100" r={radius} fill="none" stroke="#1e293b" strokeWidth="10" />
-                            <motion.circle 
-                                cx="100" cy="100" r={radius} fill="none" stroke="#f97316" strokeWidth="10" strokeLinecap="round" className="neon-glow"
-                                strokeDasharray={circ}
-                                initial={{ strokeDashoffset: circ }}
-                                animate={{ strokeDashoffset: circ - (perc / 100) * circ }}
-                                transition={{ duration: 2 }}
-                            />
+                    <div className="relative flex items-center justify-center mb-8 bg-slate-800/40 rounded-[3rem] py-8">
+                        <svg className="w-56 h-56" viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r={radius} fill="none" stroke="#1e293b" strokeWidth="12" />
+                            <circle cx="100" cy="100" r={radius} fill="none" stroke="#f97316" strokeWidth="12" strokeLinecap="round"
+                                className="radial-progress" strokeDasharray={circ} strokeDashoffset={offset} />
                         </svg>
                         <div className="absolute text-center">
                             <div className="text-5xl font-black text-white italic">{agent.current}</div>
-                            <div className="text-[9px] text-slate-500 uppercase font-bold mt-1 tracking-widest italic">АКБ (Ціль: {agent.target}) [cite: 51]</div>
+                            <div className="text-[9px] text-slate-500 uppercase font-bold mt-1 tracking-widest italic">АКБ (Ціль: {agent.target})</div>
                         </div>
                     </div>
 
-                    <div className="space-y-2 mb-6">
-                        <h3 className="text-[10px] font-black uppercase text-slate-500 ml-2 tracking-widest">🔥 Пріоритети SKU [cite: 95]</h3>
-                        {EMBEDDED_DATA.sku.map(s => (
-                            <div key={s.r} className="flex justify-between bg-slate-800/80 p-3 rounded-2xl border border-slate-700/50">
-                                <span className="text-xs font-bold text-slate-200"><span className="text-orange-500 mr-2">{s.r}</span> {s.n}</span>
+                    <div className="grid grid-cols-2 gap-3 mb-6">
+                        <div className={`p-4 rounded-3xl border text-center ${perc >= 50 ? 'bg-orange-500/10 border-orange-500/30' : 'opacity-20'}`}>
+                            <div className="text-3xl mb-1">👜</div>
+                            <p className="text-[9px] font-black uppercase">Термосумка</p>
+                        </div>
+                        <div className={`p-4 rounded-3xl border text-center ${perc >= 100 ? 'bg-orange-500/10 border-orange-500/30' : 'opacity-20'}`}>
+                            <div className="text-3xl mb-1">🔊</div>
+                            <p className="text-[9px] font-black uppercase">Колонка</p>
+                        </div>
+                    </div>
+
+                    <div className="space-y-2">
+                        <h3 className="text-[10px] font-black uppercase text-slate-500 ml-2 mb-3">🔥 Рейтинг SKU (Пріоритети)</h3>
+                        {DATA.sku.map(s => (
+                            <div key={s.r} className="flex justify-between bg-slate-800/60 p-3 rounded-2xl border border-slate-700/50 text-xs">
+                                <span><span className="text-orange-500 font-bold mr-2">{s.r}</span> {s.n}</span>
                                 <span className="text-[9px] text-slate-500 italic">арт. {s.a}</span>
                             </div>
                         ))}
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                        <div className={`p-4 rounded-3xl border ${perc >= 50 ? 'bg-orange-500/10 border-orange-500/30' : 'opacity-20'}`}>
-                            <div className="text-3xl mb-1 text-center">👜</div>
-                            <p className="text-[9px] font-black uppercase text-center">Термосумка [cite: 85]</p>
-                        </div>
-                        <div className={`p-4 rounded-3xl border ${perc >= 100 ? 'bg-orange-500/10 border-orange-500/30' : 'opacity-20'}`}>
-                            <div className="text-3xl mb-1 text-center">🔊</div>
-                            <p className="text-[9px] font-black uppercase text-center">Колонка [cite: 86]</p>
-                        </div>
                     </div>
                 </div>
             );
@@ -107,28 +95,28 @@
                 if (s) setSession(JSON.parse(s));
             }, []);
 
-            const login = () => {
-                const p = EMBEDDED_DATA.partners.find(x => x.id === pId);
+            const handleLogin = () => {
+                const p = DATA.partners.find(x => x.id === pId);
                 const a = p?.agents.find(x => x.code === code);
                 if (a) {
                     const s = { partnerName: p.name, agent: a };
                     localStorage.setItem('mhp_session', JSON.stringify(s));
                     setSession(s);
-                } else alert("Помилка коду!");
+                } else alert("Помилка! Перевірте дані.");
             };
 
             if (session) return <Dashboard agent={session.agent} partnerName={session.partnerName} onLogout={() => { localStorage.removeItem('mhp_session'); setSession(null); }} />;
 
             return (
-                <div className="min-h-screen flex items-center justify-center p-6">
-                    <div className="w-full max-w-sm bg-slate-800 p-8 rounded-[2.5rem] border border-slate-700 shadow-2xl">
+                <div className="min-h-screen flex items-center justify-center p-6 bg-slate-900">
+                    <div className="w-full max-w-sm bg-slate-800 p-8 rounded-[2.5rem] border border-slate-700">
                         <h1 className="text-orange-500 font-black text-2xl mb-8 text-center uppercase italic">Апетитна 2026</h1>
-                        <select onChange={e => setPid(e.target.value)} className="w-full bg-slate-700 p-4 rounded-2xl mb-4 text-white outline-none border border-slate-600 focus:border-orange-500">
+                        <select onChange={e => setPid(e.target.value)} className="w-full bg-slate-700 p-4 rounded-2xl mb-4 text-white outline-none border border-slate-600 text-sm">
                             <option value="">Оберіть партнера...</option>
-                            {EMBEDDED_DATA.partners.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                            {DATA.partners.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                         </select>
-                        <input type="password" placeholder="Код ТА / СВ" onChange={e => setCode(e.target.value)} className="w-full bg-slate-700 p-4 rounded-2xl mb-6 outline-none text-white border border-slate-600 focus:border-orange-500"/>
-                        <button onClick={login} className="w-full bg-orange-600 p-4 rounded-2xl font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all">Увійти</button>
+                        <input type="password" placeholder="Код ТА / СВ" onChange={e => setCode(e.target.value)} className="w-full bg-slate-700 p-4 rounded-2xl mb-6 outline-none text-white border border-slate-600"/>
+                        <button onClick={handleLogin} className="w-full bg-orange-600 p-4 rounded-2xl font-black uppercase tracking-widest shadow-lg">Увійти</button>
                     </div>
                 </div>
             );
