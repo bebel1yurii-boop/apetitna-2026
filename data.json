@@ -1,0 +1,44 @@
+{
+  "motivation_program": {
+    "title": "Мотиваційна програма Апетитна 2026",
+    "period": "13.04.26-30.06.26",
+    "partners": [
+      {
+        "id": "p1",
+        "name": "Партнер Київ Центр",
+        "agents": [
+          {
+            "code": "7777",
+            "name": "Юрій К.",
+            "personal_akb_target": 150,
+            "personal_vp_target_kg": 2800,
+            "current_akb": 85,
+            "current_vp": 1200
+          },
+          {
+            "code": "1234",
+            "name": "Олександр М.",
+            "personal_akb_target": 140,
+            "personal_vp_target_kg": 2600,
+            "current_akb": 110,
+            "current_vp": 2100
+          }
+        ]
+      },
+      {
+        "id": "p2",
+        "name": "Захід Трейд",
+        "agents": [
+          {
+            "code": "0000",
+            "name": "Іван Б.",
+            "personal_akb_target": 120,
+            "personal_vp_target_kg": 2000,
+            "current_akb": 45,
+            "current_vp": 800
+          }
+        ]
+      }
+    ]
+  }
+}
