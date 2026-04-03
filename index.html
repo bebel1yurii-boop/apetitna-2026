@@ -4,17 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Апетитна 2026</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#f97316">
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
     <style>
-        body { background-color: #0f172a; color: white; font-family: ui-sans-serif, system-ui; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #0f172a; color: white; font-family: ui-sans-serif, system-ui; margin: 0; }
         .neon-glow { filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.4)); }
-        select, input { -webkit-appearance: none; }
     </style>
 </head>
 <body>
@@ -22,68 +19,30 @@
 
     <script type="text/babel">
         const { useState, useEffect } = React;
-        const { motion, AnimatePresence } = FramerMotion;
-
-        const LoginScreen = ({ partners, onLogin }) => {
-            const [selectedPartner, setSelectedPartner] = useState('');
-            const [code, setCode] = useState('');
-
-            return (
-                <div className="min-h-screen flex items-center justify-center p-6">
-                    <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-sm bg-slate-800 p-8 rounded-[2.5rem] border border-slate-700 shadow-2xl">
-                        <div className="text-center mb-8">
-                            <div className="bg-orange-600 w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center text-3xl shadow-lg shadow-orange-600/20">🍗</div>
-                            <h1 className="text-2xl font-black uppercase tracking-tighter text-orange-500">Апетитна 2026</h1>
-                            <p className="text-slate-500 text-[10px] mt-2 uppercase font-bold tracking-[0.2em]">Вхід для партнерів</p>
-                        </div>
-                        <div className="space-y-4">
-                            <select 
-                                className="w-full bg-slate-700 p-4 rounded-2xl outline-none border border-slate-600 focus:border-orange-500 text-sm text-white"
-                                onChange={(e) => setSelectedPartner(e.target.value)}
-                            >
-                                <option value="">Оберіть партнера...</option>
-                                {partners.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
-                            </select>
-                            <input 
-                                type="password" placeholder="Ваш код ТА" 
-                                className="w-full bg-slate-700 p-4 rounded-2xl outline-none border border-slate-600 focus:border-orange-500 tracking-widest text-white"
-                                onChange={(e) => setCode(e.target.value)}
-                            />
-                            <button 
-                                onClick={() => onLogin(selectedPartner, code)}
-                                className="w-full bg-orange-600 hover:bg-orange-500 p-4 rounded-2xl font-black uppercase tracking-widest transition-all shadow-lg shadow-orange-600/30 active:scale-95"
-                            >
-                                Увійти
-                            </button>
-                        </div>
-                    </motion.div>
-                </div>
-            );
-        };
+        const { motion } = FramerMotion;
 
         const Dashboard = ({ agent, partnerName, onLogout }) => {
             const akbPerc = Math.min(100, (agent.current_akb / agent.personal_akb_target) * 100);
             const radius = 70;
             const circumference = 2 * Math.PI * radius;
 
-            const skuRating = [
-                { rank: 1, name: "Крильця 'Солодкий чилі'", art: "10668" },
-                { rank: 2, name: "Крильця в гірчично-мед. маринаді", art: "14687" },
-                { rank: 3, name: "Стегна 'Айдахо'", art: "10670" }
-            ];
-
             return (
-                <div className="p-4 max-w-lg mx-auto pb-10">
-                    <header className="flex justify-between items-center mb-4 px-2">
-                        <div className="font-black text-orange-500 uppercase tracking-tighter italic text-sm">МХП | {partnerName}</div>
-                        <button onClick={onLogout} className="text-[9px] uppercase font-bold text-slate-500 bg-slate-800 px-3 py-1 rounded-full active:bg-slate-700">Вихід</button>
+                <div className="p-4 max-w-md mx-auto min-h-screen">
+                    <header className="flex justify-between items-center mb-6">
+                        <div className="font-black text-orange-500 uppercase italic text-sm tracking-tighter">МХП | {partnerName}</div>
+                        <button onClick={onLogout} className="text-[10px] text-slate-500 uppercase font-bold bg-slate-800 px-3 py-1 rounded-full">Вихід</button>
                     </header>
 
-                    <div className="relative flex items-center justify-center mb-6 bg-slate-800/30 rounded-[2.5rem] py-4 shadow-inner">
-                        <svg className="w-56 h-56 -rotate-90" viewBox="0 0 200 200">
-                            <circle cx="100" cy="100" r={radius} fill="none" stroke="#1e293b" strokeWidth="10" />
+                    <div className="bg-gradient-to-r from-orange-600 to-red-600 p-5 rounded-3xl mb-8 shadow-lg">
+                        <h2 className="font-bold uppercase text-sm italic">VIP Кампанія Червень'26</h2>
+                        <p className="text-[10px] opacity-90 font-medium uppercase mt-1">Охоплення ≈13.8 млн споживачів </p>
+                    </div>
+
+                    <div className="relative flex items-center justify-center mb-8 bg-slate-800/30 rounded-[3rem] py-6 shadow-inner">
+                        <svg className="w-64 h-64 -rotate-90" viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r={radius} fill="none" stroke="#1e293b" strokeWidth="12" />
                             <motion.circle 
-                                cx="100" cy="100" r={radius} fill="none" stroke="#f97316" strokeWidth="10" strokeLinecap="round" className="neon-glow"
+                                cx="100" cy="100" r={radius} fill="none" stroke="#f97316" strokeWidth="12" strokeLinecap="round" className="neon-glow"
                                 strokeDasharray={circumference}
                                 initial={{ strokeDashoffset: circumference }}
                                 animate={{ strokeDashoffset: circumference - (akbPerc / 100) * circumference }}
@@ -91,84 +50,83 @@
                             />
                         </svg>
                         <div className="absolute text-center">
-                            <div className="text-5xl font-black text-white tracking-tighter">{agent.current_akb}</div>
-                            <div className="text-[9px] text-slate-400 uppercase font-bold tracking-widest mt-1 italic">АКБ ТТ (Ціль: {agent.personal_akb_target}) [cite: 76]</div>
+                            <div className="text-5xl font-black text-white tracking-tighter italic">{agent.current_akb}</div>
+                            <div className="text-[10px] text-slate-500 uppercase font-bold mt-1 tracking-widest italic">АКБ (Ціль: 5 224) [cite: 76]</div>
                         </div>
                     </div>
 
-                    <section className="mb-6">
-                        <h3 className="text-[10px] font-black uppercase text-slate-500 mb-3 tracking-widest ml-2">🔥 Рейтинг SKU (Пріоритет) [cite: 95]</h3>
-                        <div className="space-y-2">
-                            {skuRating.map(sku => (
-                                <div key={sku.rank} className="flex items-center justify-between bg-slate-800/80 p-3 rounded-2xl border border-slate-700/50">
-                                    <div className="flex items-center gap-3">
-                                        <span className="bg-orange-500 text-slate-900 font-black w-6 h-6 rounded-lg flex items-center justify-center text-xs">{sku.rank}</span>
-                                        <span className="text-xs font-bold text-slate-200">{sku.name}</span>
-                                    </div>
-                                    <span className="text-[9px] text-slate-500 font-mono italic">арт. {sku.art}</span>
-                                </div>
-                            ))}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className={`p-5 rounded-[2rem] border transition-all ${akbPerc >= 50 ? 'bg-orange-500/10 border-orange-500/30' : 'bg-slate-800/40 border-slate-700 opacity-20'}`}>
+                            <div className="text-4xl mb-2">👜</div>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-orange-400">Термосумка [cite: 85]</span>
                         </div>
-                    </section>
-
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                        <div className={`flex flex-col items-center p-4 rounded-[1.5rem] border transition-all ${akbPerc >= 50 ? 'bg-orange-500/10 border-orange-500/30 shadow-lg shadow-orange-500/5' : 'bg-slate-800/40 border-slate-700 opacity-30'}`}>
-                            <div className="text-3xl mb-1">👜</div>
-                            <span className="text-[9px] font-black uppercase">Термосумка [cite: 85]</span>
-                            <span className="text-[8px] text-slate-500 mt-1 uppercase font-bold">Квіт-Трав</span>
+                        <div className={`p-5 rounded-[2rem] border transition-all ${akbPerc >= 100 ? 'bg-orange-500/10 border-orange-500/30' : 'bg-slate-800/40 border-slate-700 opacity-20'}`}>
+                            <div className="text-4xl mb-2">🔊</div>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-orange-400">Колонка [cite: 86]</span>
                         </div>
-                        <div className={`flex flex-col items-center p-4 rounded-[1.5rem] border transition-all ${akbPerc >= 100 ? 'bg-orange-500/10 border-orange-500/30 shadow-lg shadow-orange-500/5' : 'bg-slate-800/40 border-slate-700 opacity-30'}`}>
-                            <div className="text-3xl mb-1">🔊</div>
-                            <span className="text-[9px] font-black uppercase">Колонка [cite: 86]</span>
-                            <span className="text-[8px] text-slate-500 mt-1 uppercase font-bold">Червень</span>
-                        </div>
-                    </div>
-
-                    <div className="p-4 bg-blue-600/10 border border-blue-500/20 rounded-2xl text-center">
-                        <p className="text-[9px] text-blue-400 font-bold uppercase tracking-[0.1em]">
-                            🚀 VIP-Кампанія: 13.8 млн охоплення споживачів [cite: 2]
-                        </p>
                     </div>
                 </div>
             );
         };
 
-        const MainApp = () => {
-            const [appData, setAppData] = useState(null);
+        const Login = ({ partners, onLogin }) => {
+            const [pId, setPid] = useState('');
+            const [code, setCode] = useState('');
+            return (
+                <div className="min-h-screen flex items-center justify-center p-6 bg-slate-900">
+                    <div className="w-full max-w-sm bg-slate-800 p-8 rounded-[2.5rem] border border-slate-700 shadow-2xl">
+                        <h1 className="text-orange-500 font-black text-3xl mb-8 text-center uppercase tracking-tighter italic">Апетитна 2026</h1>
+                        <select onChange={e => setPid(e.target.value)} className="w-full bg-slate-700 p-4 rounded-2xl mb-4 text-white border border-slate-600 outline-none focus:border-orange-500">
+                            <option value="">Оберіть партнера...</option>
+                            {partners.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                        </select>
+                        <input type="password" placeholder="Код ТА / СВ [cite: 73]" onChange={e => setCode(e.target.value)} className="w-full bg-slate-700 p-4 rounded-2xl mb-6 outline-none text-white border border-slate-600 focus:border-orange-500"/>
+                        <button onClick={() => onLogin(pId, code)} className="w-full bg-orange-600 p-4 rounded-2xl font-black uppercase tracking-widest shadow-lg shadow-orange-600/30 active:scale-95 transition-all">Увійти</button>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [data, setData] = useState(null);
             const [session, setSession] = useState(null);
 
             useEffect(() => {
-                fetch('data.json').then(res => res.json()).then(data => {
-                    setAppData(data);
-                    const saved = localStorage.getItem('mhp_session');
-                    if (saved) setSession(JSON.parse(saved));
-                }).catch(err => console.error("Помилка завантаження даних:", err));
+                const loadData = async () => {
+                    try {
+                        const res = await fetch('./data.json');
+                        const d = await res.json();
+                        setData(d);
+                        const s = localStorage.getItem('mhp_session');
+                        if (s) setSession(JSON.parse(s));
+                    } catch (e) {
+                        console.error("Помилка завантаження JSON:", e);
+                    }
+                };
+                loadData();
             }, []);
 
-            const handleLogin = (partnerId, code) => {
-                const partner = appData.motivation_program.partners.find(p => p.id === partnerId);
-                const agent = partner?.agents.find(a => a.code === code);
-                if (agent) {
-                    const newSession = { partnerName: partner.name, agent };
-                    localStorage.setItem('mhp_session', JSON.stringify(newSession));
-                    setSession(newSession);
-                } else { alert("Невірний код або вибір партнера"); }
+            const handleLogin = (pId, code) => {
+                const p = data.motivation_program.partners.find(x => x.id === pId);
+                const a = p?.agents.find(x => x.code === code);
+                if (a) {
+                    const s = { partnerName: p.name, agent: a };
+                    localStorage.setItem('mhp_session', JSON.stringify(s));
+                    setSession(s);
+                } else alert("Доступ заборонено. Перевірте код або партнера.");
             };
 
-            if (!appData) return <div className="h-screen flex items-center justify-center text-orange-500 font-black animate-pulse uppercase tracking-widest text-xs">МХП | Завантаження...</div>;
+            if (!data) return <div className="h-screen flex items-center justify-center font-black text-orange-500 uppercase tracking-widest text-xs animate-pulse italic">МХП | Завантаження...</div>;
 
             return session ? (
-                <Dashboard agent={session.agent} partnerName={session.partnerName} onLogout={() => {
-                    localStorage.removeItem('mhp_session');
-                    setSession(null);
-                }} />
+                <Dashboard agent={session.agent} partnerName={session.partnerName} onLogout={() => { localStorage.removeItem('mhp_session'); setSession(null); }} />
             ) : (
-                <LoginScreen partners={appData.motivation_program.partners} onLogin={handleLogin} />
+                <Login partners={data.motivation_program.partners} onLogin={handleLogin} />
             );
         };
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<MainApp />);
+        root.render(<App />);
     </script>
 </body>
 </html>
